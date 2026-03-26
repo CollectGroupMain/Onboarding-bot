@@ -1,0 +1,262 @@
+<h1>Survey editor</h1>
+<p style="color:var(--muted);font-size:0.95rem">After saving, users get the new questions on their next <code>/start</code>. Surveys already in progress are unchanged.</p>
+<div id="msg"></div>
+
+<div class="card">
+  <label>Title</label>
+  <input type="text" id="f_title" placeholder="Survey title">
+
+  <label>Welcome message</label>
+  <textarea id="f_welcome" placeholder="Text shown before the first question"></textarea>
+
+  <label>Completion message (done_message)</label>
+  <textarea id="f_done" placeholder="Thank you — your answers were saved"></textarea>
+</div>
+
+<div class="actions">
+  <button type="button" id="btn_add">+ Add question</button>
+  <button type="button" id="btn_save">Save</button>
+  <button type="button" class="secondary" id="btn_reload">Discard changes</button>
+</div>
+
+<div id="questions" style="margin-top:1rem"></div>
+
+<script>
+(function () {
+  const TYPES = ['text', 'number', 'date', 'email', 'phone', 'choice'];
+  let survey = { title: '', welcome: '', done_message: '', questions: [] };
+
+  function el(tag, cls, html) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+
+  function showMsg(text, ok) {
+    const m = document.getElementById('msg');
+    m.textContent = text || '';
+    m.className = ok ? 'ok' : 'error';
+  }
+
+  function defaultQuestion() {
+    return {
+      id: 'q_' + Math.random().toString(36).slice(2, 9),
+      text: '',
+      type: 'text',
+      min_length: 2,
+      max_length: 200
+    };
+  }
+
+  function extraFields(q) {
+    const t = q.type;
+    let h = '';
+    if (t === 'text') {
+      h = '<label>min_length <input type="number" class="ex-minl" min="0" value="' + (q.min_length ?? '') + '"></label>' +
+          '<label>max_length <input type="number" class="ex-maxl" min="1" value="' + (q.max_length ?? '') + '"></label>' +
+          '<label>regex (optional) <input type="text" class="ex-regex" value="' + escapeAttr(q.regex || '') + '"></label>';
+    } else if (t === 'number') {
+      h = '<label>min <input type="text" class="ex-min" value="' + (q.min ?? '') + '"></label>' +
+          '<label>max <input type="text" class="ex-max" value="' + (q.max ?? '') + '"></label>' +
+          '<label><input type="checkbox" class="ex-int"' + (q.integer_only ? ' checked' : '') + '> integer_only</label>';
+    } else if (t === 'date') {
+      h = '<label>format (Python) <input type="text" class="ex-fmt" value="' + escapeAttr(q.format || '%d.%m.%Y') + '" placeholder="%d.%m.%Y"></label>';
+    } else if (t === 'email') {
+      h = '<label>pattern (regex, optional) <input type="text" class="ex-pat" value="' + escapeAttr(q.pattern || '') + '"></label>';
+    } else if (t === 'phone') {
+      h = '<label>min_digits <input type="number" class="ex-mind" min="1" value="' + (q.min_digits ?? 10) + '"></label>' +
+          '<label>max_digits <input type="number" class="ex-maxd" min="1" value="' + (q.max_digits ?? 15) + '"></label>';
+    } else if (t === 'choice') {
+      const lines = Array.isArray(q.choices) ? q.choices.join('\n') : '';
+      h = '<label>Choices (one per line)<textarea class="ex-ch">' + escapeHtml(lines) + '</textarea></label>';
+    }
+    return h;
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function readExtra(block, q) {
+    const t = q.type;
+    delete q.min_length; delete q.max_length; delete q.min; delete q.max; delete q.integer_only;
+    delete q.format; delete q.pattern; delete q.min_digits; delete q.max_digits; delete q.choices;
+    delete q.regex;
+    if (t === 'text') {
+      const mn = block.querySelector('.ex-minl');
+      const mx = block.querySelector('.ex-maxl');
+      const rx = block.querySelector('.ex-regex');
+      if (mn && mn.value !== '') q.min_length = parseInt(mn.value, 10);
+      if (mx && mx.value !== '') q.max_length = parseInt(mx.value, 10);
+      if (rx && rx.value.trim()) q.regex = rx.value.trim();
+    } else if (t === 'number') {
+      const mn = block.querySelector('.ex-min');
+      const mx = block.querySelector('.ex-max');
+      if (mn && mn.value !== '') q.min = parseFloat(mn.value);
+      if (mx && mx.value !== '') q.max = parseFloat(mx.value);
+      const c = block.querySelector('.ex-int');
+      if (c && c.checked) q.integer_only = true;
+    } else if (t === 'date') {
+      const f = block.querySelector('.ex-fmt');
+      if (f && f.value) q.format = f.value;
+    } else if (t === 'email') {
+      const p = block.querySelector('.ex-pat');
+      if (p && p.value.trim()) q.pattern = p.value.trim();
+    } else if (t === 'phone') {
+      const a = block.querySelector('.ex-mind');
+      const b = block.querySelector('.ex-maxd');
+      if (a && a.value !== '') q.min_digits = parseInt(a.value, 10);
+      if (b && b.value !== '') q.max_digits = parseInt(b.value, 10);
+    } else if (t === 'choice') {
+      const ta = block.querySelector('.ex-ch');
+      const lines = (ta.value || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
+      q.choices = lines;
+    }
+  }
+
+  function renderQuestion(q, index) {
+    const wrap = el('div', 'question-block');
+    wrap.dataset.index = String(index);
+
+    const head = el('div', 'question-head');
+    head.appendChild(el('span', '', 'Question ' + (index + 1)));
+    const up = el('button', 'small secondary', '↑');
+    up.type = 'button';
+    up.onclick = function () { move(index, -1); };
+    const down = el('button', 'small secondary', '↓');
+    down.type = 'button';
+    down.onclick = function () { move(index, 1); };
+    const del = el('button', 'small danger', 'Delete');
+    del.type = 'button';
+    del.onclick = function () { remove(index); };
+    head.appendChild(up);
+    head.appendChild(down);
+    head.appendChild(del);
+    wrap.appendChild(head);
+
+    const lid = el('label', '', 'id (unique, e.g. Latin letters)');
+    const idInp = document.createElement('input');
+    idInp.type = 'text';
+    idInp.className = 'q-id';
+    idInp.value = q.id || '';
+    lid.appendChild(idInp);
+    wrap.appendChild(lid);
+
+    const ltx = el('label', '', 'Question text');
+    const tx = document.createElement('textarea');
+    tx.className = 'q-text';
+    tx.rows = 2;
+    tx.value = q.text || '';
+    ltx.appendChild(tx);
+    wrap.appendChild(ltx);
+
+    const lty = el('label', '', 'Type');
+    const sel = document.createElement('select');
+    sel.className = 'q-type';
+    TYPES.forEach(function (t) {
+      const o = document.createElement('option');
+      o.value = t;
+      o.textContent = t;
+      if (t === q.type) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.onchange = function () {
+      q.type = sel.value;
+      const ex = wrap.querySelector('.q-extra');
+      if (ex) ex.innerHTML = extraFields(q);
+    };
+    lty.appendChild(sel);
+    wrap.appendChild(lty);
+
+    const ex = el('div', 'q-extra');
+    ex.innerHTML = extraFields(q);
+    wrap.appendChild(ex);
+
+    return wrap;
+  }
+
+  function renderAll() {
+    document.getElementById('f_title').value = survey.title || '';
+    document.getElementById('f_welcome').value = survey.welcome || '';
+    document.getElementById('f_done').value = survey.done_message || '';
+    const box = document.getElementById('questions');
+    box.innerHTML = '';
+    survey.questions.forEach(function (q, i) {
+      box.appendChild(renderQuestion(q, i));
+    });
+  }
+
+  function move(i, delta) {
+    const j = i + delta;
+    if (j < 0 || j >= survey.questions.length) return;
+    const t = survey.questions[i];
+    survey.questions[i] = survey.questions[j];
+    survey.questions[j] = t;
+    renderAll();
+  }
+
+  function remove(i) {
+    survey.questions.splice(i, 1);
+    renderAll();
+  }
+
+  function collectFromDom() {
+    survey.title = document.getElementById('f_title').value.trim();
+    survey.welcome = document.getElementById('f_welcome').value;
+    survey.done_message = document.getElementById('f_done').value;
+    const blocks = document.querySelectorAll('.question-block');
+    const out = [];
+    blocks.forEach(function (block) {
+      const q = {};
+      q.id = (block.querySelector('.q-id') || {}).value || '';
+      q.text = (block.querySelector('.q-text') || {}).value || '';
+      q.type = (block.querySelector('.q-type') || {}).value || 'text';
+      readExtra(block, q);
+      out.push(q);
+    });
+    survey.questions = out;
+  }
+
+  async function load() {
+    showMsg('', true);
+    const r = await fetch('/api/survey');
+    if (!r.ok) { showMsg('Could not load survey', false); return; }
+    survey = await r.json();
+    if (!Array.isArray(survey.questions)) survey.questions = [];
+    renderAll();
+  }
+
+  document.getElementById('btn_add').onclick = function () {
+    collectFromDom();
+    survey.questions.push(defaultQuestion());
+    renderAll();
+  };
+
+  document.getElementById('btn_reload').onclick = function () { load(); };
+
+  document.getElementById('btn_save').onclick = async function () {
+    collectFromDom();
+    showMsg('Saving…', true);
+    const r = await fetch('/api/survey', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(survey)
+    });
+    const t = await r.text();
+    if (!r.ok) {
+      let detail = t;
+      try { detail = JSON.parse(t).detail || t; } catch (e) {}
+      showMsg('Error: ' + detail, false);
+      return;
+    }
+    showMsg('Saved.', true);
+  };
+
+  load();
+})();
+</script>

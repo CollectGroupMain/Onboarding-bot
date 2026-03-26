@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin — Pre-boarding bot</title>
+  <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+  <nav>
+    <span class="brand">Pre-boarding bot</span>
+    <a href="/">Home</a>
+    <a href="/survey">Survey questions</a>
+    <a href="/submissions">Submissions</a>
+    <form action="/logout" method="post" style="margin-left:auto">
+      <button type="submit" class="secondary small">Log out</button>
+    </form>
+  </nav>
+  <main>
+{% block content %}{% endblock %}
+  </main>
+</body>
+</html>

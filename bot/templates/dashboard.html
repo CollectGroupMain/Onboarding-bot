@@ -1,0 +1,16 @@
+<h1>Dashboard</h1>
+<div class="card">
+  <p>Questions in survey: <strong>{{ questions_count }}</strong></p>
+  <p>Completed submissions: <strong>{{ submissions_count }}</strong></p>
+  <p style="color:var(--muted);font-size:0.9rem">Survey file: <code>{{ survey_path }}</code></p>
+  <p style="color:var(--muted);font-size:0.9rem">Submissions file: <code>{{ submissions_path }}</code></p>
+  <div class="actions">
+    <a class="btn" href="/survey">Edit questions</a>
+    <a class="btn secondary" href="/submissions">View submissions</a>
+  </div>
+</div>
+<div class="card">
+  <h2>Quick downloads</h2>
+  <p><a href="/submissions/download/jsonl">Download all responses (.jsonl)</a></p>
+  <p><a href="/submissions/download/csv">Download all responses (.csv for Excel)</a></p>
+</div>

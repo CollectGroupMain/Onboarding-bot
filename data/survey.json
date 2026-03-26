@@ -1,0 +1,52 @@
+{
+  "title": "Pre-boarding (demo)",
+  "welcome": "Welcome. Please answer each question. You can send /cancel to stop.",
+  "done_message": "Thank you. Your answers have been saved.",
+  "questions": [
+    {
+      "id": "full_name",
+      "text": "What is your full name?",
+      "type": "text",
+      "min_length": 2,
+      "max_length": 120
+    },
+    {
+      "id": "age",
+      "text": "How old are you?",
+      "type": "number",
+      "min": 16,
+      "max": 100,
+      "integer_only": true
+    },
+    {
+      "id": "start_date",
+      "text": "Preferred start date (DD.MM.YYYY)?",
+      "type": "date",
+      "format": "%d.%m.%Y"
+    },
+    {
+      "id": "email",
+      "text": "Your work email?",
+      "type": "email"
+    },
+    {
+      "id": "phone",
+      "text": "Your mobile phone number?",
+      "type": "phone",
+      "min_digits": 10,
+      "max_digits": 15
+    },
+    {
+      "id": "transport",
+      "text": "How will you commute to the office?",
+      "type": "choice",
+      "choices": ["Public transport", "Car", "Bike / walk", "Other"]
+    },
+    {
+      "id": "confirm",
+      "text": "Confirm that the information above is correct.",
+      "type": "choice",
+      "choices": ["Yes", "No"]
+    }
+  ]
+}

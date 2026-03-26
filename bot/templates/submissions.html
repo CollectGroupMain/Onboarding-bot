@@ -1,0 +1,23 @@
+<h1>Completed surveys</h1>
+<p style="color:var(--muted)">Total records: {{ total }}. Showing up to 200 most recent below.</p>
+<div class="actions" style="margin-bottom:1rem">
+  <a class="btn" href="/submissions/download/jsonl">Download .jsonl</a>
+  <a class="btn" href="/submissions/download/csv">Download .csv</a>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Completed</th>
+        <th>Telegram ID</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Answers</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ submissions_table }}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,332 @@
+{
+  "title": "Imported survey",
+  "welcome": "Please answer the following questions. Send /cancel to stop.",
+  "done_message": "Thank you. Your responses have been saved.",
+  "questions": [
+    {
+      "id": "q_1",
+      "text": "Onboarding Collect Group Bot",
+      "type": "text"
+    },
+    {
+      "id": "q_2",
+      "text": "Hi! Welcome to our wonderful team, the Collect Group team! I will be telling you about our company and how everything works around here)) Please type your name.",
+      "type": "text"
+    },
+    {
+      "id": "q_3",
+      "text": "You …",
+      "type": "text"
+    },
+    {
+      "id": "q_4",
+      "text": "Hi, NAME!",
+      "type": "text"
+    },
+    {
+      "id": "q_5",
+      "text": "Nice to meet you, and I am a Bot, Collect Group Bot.",
+      "type": "text"
+    },
+    {
+      "id": "q_6",
+      "text": "When is your first working day at Collect Group? Please specify in dd.mm.yyyy format.",
+      "type": "text"
+    },
+    {
+      "id": "q_7",
+      "text": "You …",
+      "type": "text"
+    },
+    {
+      "id": "q_8",
+      "text": "Tell me, when is your birthday (dd.mm)?",
+      "type": "text"
+    },
+    {
+      "id": "q_9",
+      "text": "You …",
+      "type": "text"
+    },
+    {
+      "id": "q_10",
+      "text": "Thanks, NAME, now I know almost everything about you =)",
+      "type": "text"
+    },
+    {
+      "id": "q_11",
+      "text": "Now let me tell you a little bit about the company, click HERE.",
+      "type": "text"
+    },
+    {
+      "id": "q_12",
+      "text": "So, now you work at Collect Group. We are the ones who… about us …",
+      "type": "text"
+    },
+    {
+      "id": "q_13",
+      "text": "We have about XYZ major clients – it's …",
+      "type": "text"
+    },
+    {
+      "id": "q_14",
+      "text": "Let's move on!",
+      "type": "text"
+    },
+    {
+      "id": "q_15",
+      "text": "NEXT",
+      "type": "text"
+    },
+    {
+      "id": "q_16",
+      "text": "I will be back soon with the contacts, stay tuned! And hurry up and join our awesome story!",
+      "type": "text"
+    },
+    {
+      "id": "q_17",
+      "text": "WAITING",
+      "type": "text"
+    },
+    {
+      "id": "q_18",
+      "text": "NAME, in this podcast you can listen to how it all started and developed, told by our VP Alexey Kashirin https://...",
+      "type": "text"
+    },
+    {
+      "id": "q_19",
+      "text": "Once you've listened to it, let's set up your work email: please send me your first and last name in your preferred transliteration, as well as a short version for your login (the first letters of your first and last name, or just your last name, etc.) in a single message.",
+      "type": "text"
+    },
+    {
+      "id": "q_20",
+      "text": "You Eugenia Pavlenko EPavlenko",
+      "type": "text"
+    },
+    {
+      "id": "q_21",
+      "text": "I have received the data and passed it on to your colleague NAME. NAME will set up all the necessary accesses for you and pass them along through me. I'm sure this will happen before your first working day is over =)",
+      "type": "text"
+    },
+    {
+      "id": "q_22",
+      "text": "In the meantime, you will find all the basic information about the company right here: CHG Guide (https://...).",
+      "type": "text"
+    },
+    {
+      "id": "q_23",
+      "text": "By the way, have you already sent our manager NAME the documents from the list for your official onboarding?",
+      "type": "text"
+    },
+    {
+      "id": "q_24",
+      "text": "YES                               NO",
+      "type": "text"
+    },
+    {
+      "id": "q_25",
+      "text": "Please do this, otherwise NAME will start worrying =)",
+      "type": "text"
+    },
+    {
+      "id": "q_26",
+      "text": "OK / GOT IT",
+      "type": "text"
+    },
+    {
+      "id": "q_27",
+      "text": "Please send me a short story about yourself (to publish in our newsletter for colleagues).",
+      "type": "text"
+    },
+    {
+      "id": "q_28",
+      "text": "Follow  this link: https://... There are simple questions like \"what do you like to do in your free time?\",",
+      "type": "text"
+    },
+    {
+      "id": "q_29",
+      "text": "this is the way colleagues can get to know you right away!",
+      "type": "text"
+    },
+    {
+      "id": "q_30",
+      "text": "You …",
+      "type": "text"
+    },
+    {
+      "id": "q_31",
+      "text": "…",
+      "type": "text"
+    },
+    {
+      "id": "q_32",
+      "text": "Thanks, NAME, I have passed the info along!",
+      "type": "text"
+    },
+    {
+      "id": "q_33",
+      "text": "One more VERY important thing: today I will show you presentations of the main departments,",
+      "type": "text"
+    },
+    {
+      "id": "q_34",
+      "text": "recorded by our employees, where they share a lot of interesting things about their work.",
+      "type": "text"
+    },
+    {
+      "id": "q_35",
+      "text": "For this, we have sent you an invitation to register in our system/intranet ABC. You need to follow the link in the email and set a password.",
+      "type": "text"
+    },
+    {
+      "id": "q_36",
+      "text": "There you will have access to the Knowledge Base, and this is the last task for today - watch the videos. That's all, I will get back to you tomorrow, get some rest : )",
+      "type": "text"
+    },
+    {
+      "id": "q_37",
+      "text": "Oops, forgot the link, here you go: https://...",
+      "type": "text"
+    },
+    {
+      "id": "q_38",
+      "text": "DONE",
+      "type": "text"
+    },
+    {
+      "id": "q_39",
+      "text": "NAME, well done! Great job!",
+      "type": "text"
+    },
+    {
+      "id": "q_40",
+      "text": "To make it easier for you to adapt to the team, during your first 3 months working at the company you will have a buddy (peer) - a colleague who will help you with any questions. You will find out who it is soon. Yay!",
+      "type": "text"
+    },
+    {
+      "id": "q_41",
+      "text": "YAY!",
+      "type": "text"
+    },
+    {
+      "id": "q_42",
+      "text": "Good morning! The joyful day has finally arrived when you start your work at Collect Group! We",
+      "type": "text"
+    },
+    {
+      "id": "q_43",
+      "text": "are very happy! Good luck to you! Today colleagues will receive the newsletter with your story about yourself and your video. By the way, your buddy is XX, to contact… Don't hesitate to ask about anything you want to know, okay? Go meet them right now! The buddy is expecting you :)",
+      "type": "text"
+    },
+    {
+      "id": "q_44",
+      "text": "OK / GOT IT",
+      "type": "text"
+    },
+    {
+      "id": "q_45",
+      "text": "Hi, Collect Group chatbot here, how was your day? I hope it was interesting and eventful. Our main principles are maximum speed of movement and openness to change, as well as a positive attitude towards any tasks. Please write about your impressions of the first day, and I will forward them to Evgenia, our HR.",
+      "type": "text"
+    },
+    {
+      "id": "q_46",
+      "text": "You",
+      "type": "text"
+    },
+    {
+      "id": "q_47",
+      "text": "Well received. Have a great evening! You did great!",
+      "type": "text"
+    },
+    {
+      "id": "q_48",
+      "text": "Hi!",
+      "type": "text"
+    },
+    {
+      "id": "q_49",
+      "text": "Did you know that we have a learning portal with interesting materials, corporate fundamentals and tutorials? It's time to dive in: complete any 3 programs and write to me here about what you chose and completed. Link:",
+      "type": "text"
+    },
+    {
+      "id": "q_50",
+      "text": "GOT IT, WILL DO!",
+      "type": "text"
+    },
+    {
+      "id": "q_51",
+      "text": "Well received. Have a great evening! You did great!",
+      "type": "text"
+    },
+    {
+      "id": "q_52",
+      "text": "Great! And one more mini-task: follow us on social media (LinkedIn, Telegram, Instagram, YouTube). Feel free to add your colleagues as friends!",
+      "type": "text"
+    },
+    {
+      "id": "q_53",
+      "text": "Hey, hey! Today's task is special. Text to any 3 or more colleagues from the company chat, and arrange an online coffee. This is a really cool way to get to know each other, we promise! Let me know in a couple of days how it went.",
+      "type": "text"
+    },
+    {
+      "id": "q_54",
+      "text": "OK",
+      "type": "text"
+    },
+    {
+      "id": "q_55",
+      "text": "Please tell us who you met as colleagues and who you had coffee with?",
+      "type": "text"
+    },
+    {
+      "id": "q_56",
+      "text": "You",
+      "type": "text"
+    },
+    {
+      "id": "q_57",
+      "text": "It's time to dive into the product. Today's task:",
+      "type": "text"
+    },
+    {
+      "id": "q_58",
+      "text": "Recommended to check:",
+      "type": "text"
+    },
+    {
+      "id": "q_59",
+      "text": "Thanks! Do you have any questions? Write whatever you want, I will pass it on to my colleagues, and they will definitely help you)))",
+      "type": "text"
+    },
+    {
+      "id": "q_60",
+      "text": "You",
+      "type": "text"
+    },
+    {
+      "id": "q_61",
+      "text": "Hi, the chatbot wishes you a great day! Remember, in the Collect Group quick guide there was a list of our channels and social networks / there was a link to the corporate accounts, social media and platform? You did subscribe to them, right? It's a must, because we work in the fintech industry and need to be the best experts in this field.",
+      "type": "text"
+    },
+    {
+      "id": "q_62",
+      "text": "In a couple of days, I'll send you a short questionnaire with terminology questions. The level is Beginner :)",
+      "type": "text"
+    },
+    {
+      "id": "q_63",
+      "text": "GOT IT!",
+      "type": "text"
+    },
+    {
+      "id": "q_64",
+      "text": "Alas, our demo is over (and I didn't have quite time to tell you about all my capabilities, and they are limitless. But I'm sure we'll see each other again!",
+      "type": "text"
+    },
+    {
+      "id": "q_65",
+      "text": "I'm sure you will succeed! Welcome onboard, NAME!",
+      "type": "text"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in — Admin</title>
+  <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+  <main style="max-width:400px;margin-top:4rem">
+    <div class="card">
+      <h1>Admin sign in</h1>
+      <form method="post" action="/login">
+        <label>Password</label>
+        <input type="password" name="password" required autocomplete="current-password">
+        <div class="actions" style="margin-top:1rem">
+          <button type="submit">Sign in</button>
+        </div>
+      </form>
+      <p class="error">{{ error }}</p>
+    </div>
+  </main>
+</body>
+</html>
