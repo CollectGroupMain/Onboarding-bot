@@ -4,7 +4,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+# Always load .env from project root (works even if cwd is elsewhere, e.g. IDE).
+load_dotenv(ROOT / ".env")
 
 ROOT = Path(__file__).resolve().parent.parent
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime, timezone
+from html import escape
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
@@ -27,6 +28,10 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 ASKING = 1
+
+
+async def _error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    log.exception("Update %s caused: %s", update, context.error)
 
 
 def _session_survey(context: ContextTypes.DEFAULT_TYPE) -> Survey:
@@ -109,12 +114,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if not survey.questions:
         await update.message.reply_text("No questions are configured in the survey file.")
         return ConversationHandler.END
-    parts = []
+    parts: list[str] = []
     if survey.welcome:
-        parts.append(survey.welcome)
+        parts.append(escape(survey.welcome))
     if survey.title:
-        parts.append(f"\n<b>{survey.title}</b>")
-    body = "\n".join(parts).strip()
+        parts.append(f"<b>{escape(survey.title)}</b>")
+    body = "\n\n".join(parts).strip()
     if body:
         await update.message.reply_text(body, parse_mode="HTML")
     await _send_current_question(context, update.effective_chat.id, survey)
@@ -237,8 +242,9 @@ def main() -> None:
         persistent=False,
     )
     app.add_handler(conv)
+    app.add_error_handler(_error_handler)
     log.info("Bot starting, survey has %s questions", len(survey.questions))
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
+    app.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
 
 
 if __name__ == "__main__":
